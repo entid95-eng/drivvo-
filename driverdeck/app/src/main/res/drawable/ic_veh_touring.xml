@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Touring motorcycle silhouette with tall screen, backrest & panniers -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14,14 L27,14 L27,22 L42,22 L56,18 C66,15 76,15 84,18 L89,8 L95,14 L104,22 L101,31 L93,33 L97,40 L91,41 L86,33 L74,37 L48,37 L38,34 L17,34 L17,24 Z M29,30 A10,10 0 1,0 29,50 A10,10 0 1,0 29,30 Z M29,34 A6,6 0 1,1 29,46 A6,6 0 1,1 29,34 Z M93,30 A10,10 0 1,0 93,50 A10,10 0 1,0 93,30 Z M93,34 A6,6 0 1,1 93,46 A6,6 0 1,1 93,34 Z" />
+</vector>

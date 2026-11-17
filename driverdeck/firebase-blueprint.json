@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "A user-owned car or motorcycle with class silhouette and odometer tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "schemaVersion": { "type": "integer", "description": "Forward-compatible schema version." },
+        "name": { "type": "string", "description": "Display name of the vehicle." },
+        "brand": { "type": "string", "description": "Vehicle manufacturer." },
+        "model": { "type": "string", "description": "Vehicle model name." },
+        "year": { "type": "integer", "description": "Production year." },
+        "category": { "type": "string", "enum": ["CAR", "MOTO"] },
+        "vehicleClass": {
+          "type": "string",
+          "enum": ["SEDAN", "CROSSOVER", "WAGON", "NAKED", "SPORT", "TOUR_ENDURO", "SCOOTER", "TOURING"]
+        },
+        "iconStyle": { "type": "string", "enum": ["SOLID", "OUTLINE", "TWO_TONE"] },
+        "accentColorHex": { "type": "string", "description": "Hex color for silhouette accent." },
+        "odometerKm": { "type": "integer", "description": "Current odometer in kilometers." },
+        "fuelType": { "type": "string", "description": "Primary fuel type label." },
+        "tankCapacityLiters": { "type": "number", "description": "Fuel tank capacity in liters." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId", "schemaVersion", "name", "brand", "model", "year",
+        "category", "vehicleClass", "iconStyle", "accentColorHex",
+        "odometerKm", "fuelType", "tankCapacityLiters", "createdAt", "updatedAt"
+      ]
+    },
+    "LogRecord": {
+      "title": "LogRecord",
+      "description": "A refueling, maintenance service, or expense record for a vehicle.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "schemaVersion": { "type": "integer", "description": "Forward-compatible schema version." },
+        "vehicleId": { "type": "string", "description": "Referenced vehicle document ID." },
+        "recordType": { "type": "string", "enum": ["REFUEL", "SERVICE", "EXPENSE"] },
+        "title": { "type": "string", "description": "Short record title." },
+        "categoryTag": { "type": "string", "description": "Category label (e.g. АИ-95, Замена масла, Страховка)." },
+        "amountCost": { "type": "number", "description": "Total cost in user currency." },
+        "odometerKm": { "type": "integer", "description": "Odometer reading at the time of event." },
+        "liters": { "type": "number", "description": "Refuel volume in liters (0 if non-fuel)." },
+        "pricePerLiter": { "type": "number", "description": "Unit fuel price (0 if non-fuel)." },
+        "fullTank": { "type": "boolean", "description": "Whether tank was filled to full." },
+        "notes": { "type": "string", "description": "Optional notes." },
+        "eventTimestampMs": { "type": "integer", "description": "Event timestamp in epoch milliseconds." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId", "schemaVersion", "vehicleId", "recordType", "title", "categoryTag",
+        "amountCost", "odometerKm", "liters", "pricePerLiter", "fullTank",
+        "notes", "eventTimestampMs", "createdAt", "updatedAt"
+      ]
+    },
+    "ReminderTask": {
+      "title": "ReminderTask",
+      "description": "A Todoist-style upcoming maintenance or document task by date and/or mileage.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "schemaVersion": { "type": "integer", "description": "Forward-compatible schema version." },
+        "vehicleId": { "type": "string", "description": "Referenced vehicle document ID." },
+        "title": { "type": "string", "description": "Task title." },
+        "notes": { "type": "string", "description": "Optional task notes." },
+        "triggerType": { "type": "string", "enum": ["BY_DATE", "BY_MILEAGE", "BOTH"] },
+        "dueDateEpochMs": { "type": "integer", "description": "Due date in epoch ms (0 if mileage-only)." },
+        "dueOdometerKm": { "type": "integer", "description": "Due odometer km (0 if date-only)." },
+        "repeatIntervalDays": { "type": "integer", "description": "Repeat interval in days (0 if none)." },
+        "repeatIntervalKm": { "type": "integer", "description": "Repeat interval in km (0 if none)." },
+        "priority": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "completed": { "type": "boolean", "description": "Task completion status." },
+        "completedAtEpochMs": { "type": "integer", "description": "Completion timestamp in epoch ms (0 if active)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId", "schemaVersion", "vehicleId", "title", "notes", "triggerType",
+        "dueDateEpochMs", "dueOdometerKm", "repeatIntervalDays", "repeatIntervalKm",
+        "priority", "completed", "completedAtEpochMs", "createdAt", "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/vehicles/{vehicleId}": {
+      "schema": { "$ref": "#/entities/Vehicle" },
+      "description": "User-owned garage vehicles."
+    },
+    "/users/{userId}/records/{recordId}": {
+      "schema": { "$ref": "#/entities/LogRecord" },
+      "description": "User-owned fuel, service, and expense log entries."
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": { "$ref": "#/entities/ReminderTask" },
+      "description": "User-owned Todoist-style vehicle reminders and maintenance tasks."
+    }
+  }
+}

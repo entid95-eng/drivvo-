@@ -1,0 +1,207 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global safety net: deny all by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidVehicleCategory(cat) {
+      return cat in ['CAR', 'MOTO'];
+    }
+
+    function isValidVehicleClass(cls) {
+      return cls in ['SEDAN', 'CROSSOVER', 'WAGON', 'NAKED', 'SPORT', 'TOUR_ENDURO', 'SCOOTER', 'TOURING'];
+    }
+
+    function isValidIconStyle(style) {
+      return style in ['SOLID', 'OUTLINE', 'TWO_TONE'];
+    }
+
+    function isValidVehicle(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.schemaVersion is int && data.schemaVersion >= 1 && data.schemaVersion <= 100 &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 60 &&
+             data.brand is string && data.brand.size() <= 40 &&
+             data.model is string && data.model.size() <= 40 &&
+             data.year is int && data.year >= 1950 && data.year <= 2100 &&
+             data.category is string && isValidVehicleCategory(data.category) &&
+             data.vehicleClass is string && isValidVehicleClass(data.vehicleClass) &&
+             data.iconStyle is string && isValidIconStyle(data.iconStyle) &&
+             data.accentColorHex is string && data.accentColorHex.size() >= 4 && data.accentColorHex.size() <= 9 &&
+             data.accentColorHex.matches('^#[0-9a-fA-F]{6,8}$') &&
+             data.odometerKm is int && data.odometerKm >= 0 && data.odometerKm <= 5000000 &&
+             data.fuelType is string && data.fuelType.size() >= 1 && data.fuelType.size() <= 24 &&
+             data.tankCapacityLiters is number && data.tankCapacityLiters >= 0 && data.tankCapacityLiters <= 500 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidLogRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.schemaVersion is int && data.schemaVersion >= 1 && data.schemaVersion <= 100 &&
+             isValidId(data.vehicleId) &&
+             data.recordType is string && data.recordType in ['REFUEL', 'SERVICE', 'EXPENSE'] &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 80 &&
+             data.categoryTag is string && data.categoryTag.size() >= 1 && data.categoryTag.size() <= 40 &&
+             data.amountCost is number && data.amountCost >= 0 && data.amountCost <= 10000000 &&
+             data.odometerKm is int && data.odometerKm >= 0 && data.odometerKm <= 5000000 &&
+             data.liters is number && data.liters >= 0 && data.liters <= 1000 &&
+             data.pricePerLiter is number && data.pricePerLiter >= 0 && data.pricePerLiter <= 10000 &&
+             data.fullTank is bool &&
+             data.notes is string && data.notes.size() <= 500 &&
+             data.eventTimestampMs is int && data.eventTimestampMs >= 0 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidReminderTask(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.schemaVersion is int && data.schemaVersion >= 1 && data.schemaVersion <= 100 &&
+             isValidId(data.vehicleId) &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 80 &&
+             data.notes is string && data.notes.size() <= 500 &&
+             data.triggerType is string && data.triggerType in ['BY_DATE', 'BY_MILEAGE', 'BOTH'] &&
+             data.dueDateEpochMs is int && data.dueDateEpochMs >= 0 &&
+             data.dueOdometerKm is int && data.dueOdometerKm >= 0 && data.dueOdometerKm <= 5000000 &&
+             data.repeatIntervalDays is int && data.repeatIntervalDays >= 0 && data.repeatIntervalDays <= 3650 &&
+             data.repeatIntervalKm is int && data.repeatIntervalKm >= 0 && data.repeatIntervalKm <= 500000 &&
+             data.priority is string && data.priority in ['HIGH', 'MEDIUM', 'LOW'] &&
+             data.completed is bool &&
+             data.completedAtEpochMs is int && data.completedAtEpochMs >= 0 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function vehicleExists(userId, vehicleId) {
+      return exists(/databases/$(database)/documents/users/$(userId)/vehicles/$(vehicleId));
+    }
+
+    match /users/{userId}/vehicles/{vehicleId} {
+      allow get: if isOwner(userId) && isValidId(vehicleId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(vehicleId) &&
+                       incoming().keys().hasAll([
+                         'userId', 'schemaVersion', 'name', 'brand', 'model', 'year',
+                         'category', 'vehicleClass', 'iconStyle', 'accentColorHex',
+                         'odometerKm', 'fuelType', 'tankCapacityLiters', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'schemaVersion', 'name', 'brand', 'model', 'year',
+                         'category', 'vehicleClass', 'iconStyle', 'accentColorHex',
+                         'odometerKm', 'fuelType', 'tankCapacityLiters', 'createdAt', 'updatedAt'
+                       ]) &&
+                       isValidVehicle(incoming(), userId);
+
+      allow update: if isOwner(userId) &&
+                       isValidId(vehicleId) &&
+                       isValidVehicle(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt && (
+                         incoming().diff(existing()).affectedKeys().hasOnly(['odometerKm', 'updatedAt']) ||
+                         incoming().diff(existing()).affectedKeys().hasOnly(['iconStyle', 'accentColorHex', 'updatedAt']) ||
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'name', 'brand', 'model', 'year', 'category', 'vehicleClass',
+                           'iconStyle', 'accentColorHex', 'odometerKm', 'fuelType',
+                           'tankCapacityLiters', 'schemaVersion', 'updatedAt'
+                         ])
+                       );
+
+      allow delete: if isOwner(userId) && isValidId(vehicleId);
+    }
+
+    match /users/{userId}/records/{recordId} {
+      allow get: if isOwner(userId) && isValidId(recordId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(recordId) &&
+                       incoming().keys().hasAll([
+                         'userId', 'schemaVersion', 'vehicleId', 'recordType', 'title', 'categoryTag',
+                         'amountCost', 'odometerKm', 'liters', 'pricePerLiter', 'fullTank',
+                         'notes', 'eventTimestampMs', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'schemaVersion', 'vehicleId', 'recordType', 'title', 'categoryTag',
+                         'amountCost', 'odometerKm', 'liters', 'pricePerLiter', 'fullTank',
+                         'notes', 'eventTimestampMs', 'createdAt', 'updatedAt'
+                       ]) &&
+                       isValidLogRecord(incoming(), userId) &&
+                       vehicleExists(userId, incoming().vehicleId);
+
+      allow update: if isOwner(userId) &&
+                       isValidId(recordId) &&
+                       isValidLogRecord(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       (incoming().vehicleId == existing().vehicleId || vehicleExists(userId, incoming().vehicleId)) && (
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'vehicleId', 'recordType', 'title', 'categoryTag', 'amountCost',
+                           'odometerKm', 'liters', 'pricePerLiter', 'fullTank', 'notes',
+                           'eventTimestampMs', 'schemaVersion', 'updatedAt'
+                         ])
+                       );
+
+      allow delete: if isOwner(userId) && isValidId(recordId);
+    }
+
+    match /users/{userId}/reminders/{reminderId} {
+      allow get: if isOwner(userId) && isValidId(reminderId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(reminderId) &&
+                       incoming().keys().hasAll([
+                         'userId', 'schemaVersion', 'vehicleId', 'title', 'notes', 'triggerType',
+                         'dueDateEpochMs', 'dueOdometerKm', 'repeatIntervalDays', 'repeatIntervalKm',
+                         'priority', 'completed', 'completedAtEpochMs', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'schemaVersion', 'vehicleId', 'title', 'notes', 'triggerType',
+                         'dueDateEpochMs', 'dueOdometerKm', 'repeatIntervalDays', 'repeatIntervalKm',
+                         'priority', 'completed', 'completedAtEpochMs', 'createdAt', 'updatedAt'
+                       ]) &&
+                       isValidReminderTask(incoming(), userId) &&
+                       vehicleExists(userId, incoming().vehicleId);
+
+      allow update: if isOwner(userId) &&
+                       isValidId(reminderId) &&
+                       isValidReminderTask(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       (incoming().vehicleId == existing().vehicleId || vehicleExists(userId, incoming().vehicleId)) && (
+                         incoming().diff(existing()).affectedKeys().hasOnly(['completed', 'completedAtEpochMs', 'updatedAt']) ||
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'vehicleId', 'title', 'notes', 'triggerType', 'dueDateEpochMs',
+                           'dueOdometerKm', 'repeatIntervalDays', 'repeatIntervalKm',
+                           'priority', 'completed', 'completedAtEpochMs', 'schemaVersion', 'updatedAt'
+                         ])
+                       );
+
+      allow delete: if isOwner(userId) && isValidId(reminderId);
+    }
+  }
+}

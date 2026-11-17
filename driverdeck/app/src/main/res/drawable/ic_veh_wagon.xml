@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Long-roof Wagon / Estate silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M9,37 L10,27 C11,22 14,15 19,12 L79,11 C86,11 91,15 97,22 L109,24 C113,25 115,28 115,32 L115,37 C115,39 113,40 110,40 L103,40 A10,10 0 1,0 83,40 L39,40 A10,10 0 1,0 19,40 L12,40 C10,40 9,39 9,37 Z M29,34 A6,6 0 1,1 29,46 A6,6 0 1,1 29,34 Z M93,34 A6,6 0 1,1 93,46 A6,6 0 1,1 93,34 Z" />
+</vector>

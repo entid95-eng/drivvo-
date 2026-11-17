@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Scooter step-through silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M21,23 C25,21 39,21 48,25 L56,34 L73,34 L77,15 L83,9 L87,13 L84,18 L94,25 L96,39 L90,40 L87,29 L77,38 L46,38 L36,30 L23,30 Z M31,32 A8,8 0 1,0 31,48 A8,8 0 1,0 31,32 Z M31,36 A4,4 0 1,1 31,44 A4,4 0 1,1 31,36 Z M92,32 A8,8 0 1,0 92,48 A8,8 0 1,0 92,32 Z M92,36 A4,4 0 1,1 92,44 A4,4 0 1,1 92,36 Z" />
+</vector>

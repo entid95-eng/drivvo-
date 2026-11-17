@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Sportbike full fairing silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M15,17 L37,24 L54,20 C62,15 74,14 84,13 L95,18 L104,26 L92,32 L96,40 L90,41 L85,33 L73,37 L53,37 L44,30 L28,40 L25,36 L39,26 L18,21 Z M27,30 A10,10 0 1,0 27,50 A10,10 0 1,0 27,30 Z M27,34 A6,6 0 1,1 27,46 A6,6 0 1,1 27,34 Z M94,30 A10,10 0 1,0 94,50 A10,10 0 1,0 94,30 Z M94,34 A6,6 0 1,1 94,46 A6,6 0 1,1 94,34 Z" />
+</vector>

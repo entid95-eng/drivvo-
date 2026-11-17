@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Classic 3-box Sedan silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,37 L10,31 C10,28 13,26 20,25 L34,23 L48,14 C52,11 58,10 68,10 L81,10 C87,10 92,13 98,21 L107,23 C112,24 114,27 114,31 L114,37 C114,39 112,40 109,40 L103,40 A10,10 0 1,0 83,40 L39,40 A10,10 0 1,0 19,40 L13,40 C11,40 10,39 10,37 Z M29,34 A6,6 0 1,1 29,46 A6,6 0 1,1 29,34 Z M93,34 A6,6 0 1,1 93,46 A6,6 0 1,1 93,34 Z" />
+</vector>

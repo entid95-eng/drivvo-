@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Naked motorcycle silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M18,22 L38,24 L51,21 C57,17 67,16 76,20 L82,14 L87,14 L85,20 L92,23 L89,27 L83,26 L94,39 L89,40 L79,28 L70,35 L53,36 L44,29 L29,39 L26,36 L40,26 L20,25 Z M28,30 A10,10 0 1,0 28,50 A10,10 0 1,0 28,30 Z M28,34 A6,6 0 1,1 28,46 A6,6 0 1,1 28,34 Z M92,30 A10,10 0 1,0 92,50 A10,10 0 1,0 92,30 Z M92,34 A6,6 0 1,1 92,46 A6,6 0 1,1 92,34 Z" />
+</vector>

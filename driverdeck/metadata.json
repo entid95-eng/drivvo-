@@ -1,0 +1,6 @@
+{
+  "name": "DriveDeck",
+  "description": "Бортжурнал авто и мото в стиле Drivvo с Todoist-виджетом, веб-панелью для ПК и 3 вариантами силуэтов по классам.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

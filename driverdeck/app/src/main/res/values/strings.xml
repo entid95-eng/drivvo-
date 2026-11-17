@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DriveDeck</string>
+    <string name="widget_name">Задачи DriveDeck</string>
+    <string name="widget_description">Ближайшие задачи по обслуживанию и документам авто и мото в стиле Todoist</string>
+    <string name="pc_sync_channel_name">ПК-доступ по Wi-Fi</string>
+    <string name="pc_sync_notification_title">Веб-панель DriveDeck активна</string>
+    <string name="pc_sync_notification_text">Откройте адрес в браузере ПК для просмотра и редактирования</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- Adventure / Tour Enduro silhouette with tall windscreen, beak & top case -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14,13 L30,13 L30,22 L42,24 L56,19 C64,15 74,15 80,19 L86,8 L91,13 L89,19 L104,22 L95,25 L86,25 L95,39 L90,40 L81,27 L72,36 L52,36 L43,29 L28,39 L25,36 L38,26 L16,25 Z M27,29 A10,10 0 1,0 27,49 A10,10 0 1,0 27,29 Z M27,33 A6,6 0 1,1 27,45 A6,6 0 1,1 27,33 Z M94,29 A10,10 0 1,0 94,49 A10,10 0 1,0 94,29 Z M94,33 A6,6 0 1,1 94,45 A6,6 0 1,1 94,33 Z" />
+</vector>

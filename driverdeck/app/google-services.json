@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1056627956440",
+    "project_id": "gen-lang-client-0570028514",
+    "storage_bucket": "gen-lang-client-0570028514.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056627956440:android:957209962bb7b2a17e15ad",
+        "android_client_info": {
+          "package_name": "com.aistudio.drivedeck.vrmtqp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1056627956440-v5hq8jf88c8ban5d8um2h4n6jhauklrj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aistudio.drivedeck.vrmtqp",
+            "certificate_hash": "2b27e21a0b440d17c64813dab2f4fe5627cca081"
+          }
+        },
+        {
+          "client_id": "1056627956440-duffl2al7nfa6ul74k52k7c0jupvuadt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtoSd-w7h6DthlKolpNJLrQ_yLYZMDJek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1056627956440-duffl2al7nfa6ul74k52k7c0jupvuadt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

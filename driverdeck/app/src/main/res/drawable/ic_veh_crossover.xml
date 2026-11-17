@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="24dp"
+    android:viewportWidth="120"
+    android:viewportHeight="56">
+    <!-- High-stance Crossover / SUV silhouette with roof rails -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M11,34 L11,26 C11,21 15,17 22,16 L36,10 L40,7 L78,7 L82,10 L95,18 L108,21 C113,22 115,25 115,30 L115,35 C115,37 113,38 110,38 L104,38 A11,11 0 1,0 82,38 L40,38 A11,11 0 1,0 18,38 L14,38 C12,38 11,36 11,34 Z M29,32 A7,7 0 1,1 29,46 A7,7 0 1,1 29,32 Z M93,32 A7,7 0 1,1 93,46 A7,7 0 1,1 93,32 Z" />
+</vector>
